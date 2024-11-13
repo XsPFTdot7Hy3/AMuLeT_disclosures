@@ -8,23 +8,23 @@
 - [From gem5 documentation](https://www.gem5.org/documentation/general_docs/architecture_support/x86_microop_isa/#ldst):
 
 <img src="UV3/UV3-2.png" alt="ldst-docs" style="max-width:50%; height:auto;">
-<br><br>
+<!-- <br><br> -->
 
 - CleanupSpec Requires Information of L1/L2 Hit/Miss on Loads to Issue Cleanups
 
 <img src="UV3/UV3-3.png" alt="cleanup_on_miss-gem5" style="max-width:50%; height:auto;">
-<br><br>
+<!-- <br><br> -->
 
 - Ldst (Read as part of Read-Modify-Write) has a writeCallback() where the L2-Miss flags are not set
 
 <img src="UV3/UV3-4.png" alt="writeCallback-trace" style="max-width:50%; height:auto;">
-<br><br>
+<!-- <br><br> -->
 
 - CleanupSpec only updates status flags on readCallback()
 - **BUT**: Ldst reads via a writeCallback()!
 
 <img src="UV3/UV3-5.png" alt="readCallback-gem5" style="max-width:50%; height:auto;">
-<br><br>
+<!-- <br><br> -->
 
 
 # UV4 - Split Requests Not Cleaned Bug
@@ -37,14 +37,15 @@
 - For example: 0x401154 is a Spec. Store, **split** into 2 requests to adjacent cache lines
 
 <img src="UV4/UV4-2.png" alt="splitreq-pktTrace" style="max-width:50%; height:auto;">
-<br><br>
+<!-- <br><br> -->
 
 - **BUT**: Cleanup not implemented for split requests!
 
 <img src="UV4/UV4-3.png" alt="splitreq-cleanup-gem5" style="max-width:50%; height:auto;">
-<br><br>
+<!-- <br><br> -->
 
 Since these need to be cleaned up, but aren’t ==> Violation!
+
 
 # UV5 - Too Much Cleaning Vulnerability
 
@@ -53,7 +54,7 @@ Since these need to be cleaned up, but aren’t ==> Violation!
 (Ignore the is* flags, they are legacy code unimplemented in our CleanupSpec testing)
 
 <img src="UV5/UV5-1.png" alt="spec_nonspec-trace" style="max-width:50%; height:auto;">
-<br><br>
+<!-- <br><br> -->
 
 Issue: The second, valid memory request will be cleaned up alongside the first request.
 - CleanupSpec does not account for the valid memory request to 0x1740
